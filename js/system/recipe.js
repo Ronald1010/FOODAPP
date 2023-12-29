@@ -1,0 +1,450 @@
+import {
+  doLogout,
+  supabase,
+  successNotification,
+  errorNotification,
+} from "../main.js";
+btn_logout.onclick = doLogout;
+
+// Function to fetch recipe details based on dish ID
+// Function to fetch recipe details based on dish ID
+let currentRecipeId; // Declare a variable to store the fetched recipe ID
+
+async function fetchAndDisplayRecipe() {
+  try {
+    // Get the dish ID from the URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const dishId = urlParams.get("id");
+
+    // Check if dishId is not null and is a valid numeric value
+    if (!dishId || isNaN(parseInt(dishId))) {
+      console.error("Invalid dish ID:", dishId);
+      return;
+    }
+
+    // Parse the dishId to ensure it's a numeric value
+    const numericDishId = parseInt(dishId);
+
+    // Fetch specific recipe details from the database (e.g., Supabase) based on dish ID
+    const { data: recipeDetails, error } = await supabase
+      .from("recipe")
+      .select("*")
+      .eq("dishes_id", numericDishId) // Filter by dishes_id instead of id
+      .single();
+
+    if (error) {
+      console.error("Error fetching recipe:", error);
+      return;
+    }
+
+    // Log the fetched recipe details to the console
+    console.log("Fetched Recipe Details:", recipeDetails);
+
+    // Assign the fetched recipe ID to the variable
+    currentRecipeId = recipeDetails.id; // Replace 'id' with the correct property name
+
+    // Populate the HTML structure with fetched recipe details
+    populateRecipeDetails(recipeDetails);
+    await displayCommentsForRecipe(currentRecipeId);
+  } catch (error) {
+    console.error("Error fetching recipe:", error.message);
+  }
+}
+
+fetchAndDisplayRecipe();
+// Function to populate HTML structure with fetched recipe details
+// Function to populate HTML structure with fetched recipe details
+// Function to populate HTML structure with fetched recipe details
+function populateRecipeDetails(recipeDetails) {
+  const recipeContainer = document.getElementById("recipe");
+  const dishNameElement = recipeContainer.querySelector("#DishName b");
+  const proceduresList = recipeContainer.querySelector(
+    ".content ol:last-of-type"
+  );
+  const ingredientsList = recipeContainer.querySelector(".content ul");
+
+  // Access the elements within the recipe container and fill them with the fetched data
+  const aboutImg = recipeContainer.querySelector(".about-img img");
+  const contentParagraph = recipeContainer.querySelector(".content p");
+  const ingredientsHeader = recipeContainer.querySelector(
+    ".content h2:first-of-type"
+  );
+  const proceduresHeader = recipeContainer.querySelector(
+    ".content h2:last-of-type"
+  );
+
+  // Set the dish name
+  dishNameElement.textContent = recipeDetails.dish_name;
+
+  // Set the image source
+  aboutImg.src = recipeDetails.image_path;
+
+  // Set the description
+  contentParagraph.innerHTML = `<b>Description:</b> ${recipeDetails.discreption}`;
+
+  // Set the ingredients header
+  ingredientsHeader.innerHTML = "<b>Ingredients:</b>";
+
+  // Split the ingredients by a newline character
+  const ingredients = recipeDetails.ingredients.split("\n");
+
+  // Append each ingredient as a list item
+  ingredients.forEach((ingredient) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = ingredient.trim(); // Include each ingredient
+    ingredientsList.appendChild(listItem);
+  });
+
+  // Set the procedures header
+  proceduresHeader.innerHTML = "<b>Procedures:</b>";
+
+  // Split procedure steps by a period and add each step as a list item
+  const procedureSteps = recipeDetails.procedure.split("\n");
+
+  // Append each step as a list item
+  procedureSteps.forEach((step) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = step.trim(); // Include each step
+    proceduresList.appendChild(listItem);
+  });
+}
+
+// Function to add recipe_id to the favorites table
+async function addToFavorites(recipeId) {
+  try {
+    // Retrieve email from localStorage
+    const userEmail = localStorage.getItem("email"); // Replace 'userEmail' with the key used to store the email
+
+    if (!userEmail) {
+      console.error("User email not found in localStorage");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("favorites")
+      .insert([{ recipe_id: recipeId, email: userEmail }]); // Use 'userEmail' here instead of 'email'
+
+    if (error) {
+      console.error("Error adding to favorites:", error);
+      return;
+    }
+
+    console.log("Recipe added to favorites:", data);
+  } catch (error) {
+    console.error("Error adding to favorites:", error.message);
+  }
+}
+
+// Event listener for the Favorite button click
+const favoriteButton = document.getElementById("favoriteButton");
+favoriteButton.addEventListener("click", async () => {
+  // Use the stored recipe ID from fetchAndDisplayRecipe()
+  const recipeId = currentRecipeId;
+
+  // Call the function to add recipe_id to favorites
+  await addToFavorites(recipeId);
+});
+
+// Call the function to fetch and display recipe details
+fetchAndDisplayRecipe();
+
+// Remove Favorites
+
+const favoriteCheckbox = document.querySelector(
+  '.ui-like input[type="checkbox"]'
+);
+
+// Function to delete the recipe from favorites based on the recipe ID
+async function removeFromFavorites(recipeId) {
+  try {
+    const { error } = await supabase
+      .from("favorites")
+      .delete()
+      .eq("recipe_id", recipeId); // Assuming the column name for recipe ID is 'recipe_id'
+
+    if (error) {
+      console.error("Error removing from favorites:", error);
+      return;
+    }
+
+    console.log("Recipe removed from favorites");
+  } catch (error) {
+    console.error("Error removing from favorites:", error.message);
+  }
+}
+
+// Event listener for the checkbox change (uncheck) event
+favoriteCheckbox.addEventListener("change", async (event) => {
+  const isChecked = event.target.checked;
+
+  if (!isChecked) {
+    // Call the function to remove from favorites using the stored recipe ID
+    const recipeId = currentRecipeId; // Assuming currentRecipeId is available
+    await removeFromFavorites(recipeId);
+  }
+});
+
+// Handles Color
+
+// SEARCH FUNCTIONS
+// SEARCH FUNCTIONS
+async function fetchSearchSuggestions(query) {
+  try {
+    const { data: recipes, error } = await supabase
+      .from("recipe")
+      .select("dishes_id, dish_name") // Select 'dishes_id' and 'dish_name' fields for suggestions
+      .ilike("dish_name", `%${query}%`); // Search for dish_names containing the query (case insensitive)
+
+    if (error) {
+      throw error;
+    }
+
+    return recipes; // Return the fetched recipes
+  } catch (error) {
+    console.error("Error fetching search suggestions:", error.message);
+    return [];
+  }
+}
+
+inputBox.addEventListener("input", async function (event) {
+  const query = event.target.value.trim();
+
+  if (query.length > 0) {
+    const suggestions = await fetchSearchSuggestions(query);
+    displaySearchSuggestions(suggestions);
+  } else {
+    searchDropdown.innerHTML = "";
+    searchDropdown.style.display = "none";
+  }
+});
+
+function displaySearchSuggestions(suggestions) {
+  const searchDropdown = document.getElementById("search-dropdown");
+  searchDropdown.innerHTML = "";
+
+  if (suggestions.length > 0) {
+    suggestions.forEach((suggestion) => {
+      const item = document.createElement("a");
+      item.setAttribute("class", "dropdown-item");
+      item.setAttribute(
+        "href",
+        `/Recipe/recipe.html?id=${suggestion.dishes_id}`
+      ); // Use 'dishes_id' in the URL
+      item.textContent = suggestion.dish_name;
+
+      searchDropdown.appendChild(item);
+    });
+
+    searchDropdown.style.display = "block";
+  } else {
+    searchDropdown.style.display = "none";
+  }
+}
+
+function navigateToRecipePage(recipeId) {
+  // Handle the recipe ID, for example, display it in console
+  console.log(`Clicked Recipe ID: ${recipeId}`);
+  // You can perform any action here based on the clicked recipe ID
+}
+
+//
+//
+// COMENTS SECTION
+// Function to handle form submission
+// Function to generate a signed URL and submit a comment with image to the database
+// Function to generate a signed URL and submit a comment with image to the database
+
+// Function to upload the image and get the signed URL
+async function uploadAndGetURL(file) {
+  try {
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("comments")
+      .upload(`images/${file.name}`, file);
+
+    if (uploadError) {
+      console.error("Error uploading file:", uploadError);
+      return null;
+    }
+
+    const imagePath = uploadData.path || uploadData.fullPath || undefined;
+    return imagePath;
+  } catch (err) {
+    console.error("Error:", err.message);
+    return null;
+  }
+}
+
+// Function to submit comment with image path and other values
+// Function to submit comment with image path and other values
+document
+  .getElementById("comments-form")
+  .addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    await fetchAndDisplayRecipe();
+
+    const comment = document.getElementById("comment").value;
+    const fileInput = document.getElementById("file");
+    const rating = document.getElementById("rating").value;
+
+    // Check if a file is uploaded
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+
+      const imagePath = await uploadAndGetURL(file);
+
+      if (!imagePath) {
+        console.error("Error obtaining image path.");
+        return;
+      }
+
+      // Submit comment with image path and other values
+      await submitComment(comment, imagePath, rating, currentRecipeId);
+    } else {
+      // Submit comment without an image
+      await submitComment(comment, null, rating, currentRecipeId);
+    }
+
+    // Function to submit a comment
+    async function submitComment(comment, imagePath, rating, recipeId) {
+      try {
+        // Retrieve the email from localStorage
+        const userEmail = localStorage.getItem("email");
+
+        const { data, error } = await supabase.from("ratings").insert([
+          {
+            comments: comment,
+            image_path: imagePath,
+            rating: parseInt(rating),
+            recipe_id: recipeId,
+            email: userEmail, // Store the email in the "ratings" table
+          },
+        ]);
+
+        if (error) {
+          console.error("Error inserting data:", error);
+          // Display error alert
+          alert("Error inserting data");
+          return;
+        }
+
+        console.log("Data inserted successfully:", data);
+
+        // After inserting a new comment, refresh the comments section
+        await displayCommentsForRecipe(recipeId);
+
+        // Reset form
+        document.getElementById("comments-form").reset();
+
+        // Display success alert
+        alert("Comment submitted successfully");
+      } catch (err) {
+        console.error("Error:", err.message);
+        // Display error alert
+        alert("Error occurred while submitting comment");
+      }
+    }
+  });
+
+//
+//
+//
+// DISPLAY COMMENTS
+function generateStars(rating) {
+  const starSymbols = "⭐".repeat(rating); // Repeats the star symbol 'rating' times
+  return starSymbols;
+}
+
+// Function to fetch user info and display comments
+async function displayCommentsForRecipe(recipeId) {
+  try {
+    // Fetch ratings data from Supabase based on recipe_id
+    let { data: ratings, error: ratingsError } = await supabase
+      .from("ratings")
+      .select("*")
+      .eq("recipe_id", recipeId);
+
+    if (ratingsError) {
+      console.error("Error fetching ratings:", ratingsError);
+      return;
+    }
+
+    console.log("Ratings:", ratings);
+
+    // Display comments using retrieved data
+    const commentSection = document.getElementById("comment_section");
+    commentSection.innerHTML = "";
+    const supabaseStorageURL =
+      "https://yjzcvrbsaxmfuaeakpzl.supabase.co/storage/v1/object/public/comments/";
+
+    // Loop through each comment
+    for (const rating of ratings) {
+      const userEmail = rating.email; // Assuming the email is stored in the 'email' column of the 'ratings' table
+
+      // Fetch user_info data from Supabase based on the email associated with the rating
+      let { data: userInfo, error: userInfoError } = await supabase
+        .from("user_info")
+        .select("*")
+        .eq("email", userEmail);
+
+      if (userInfoError) {
+        console.error("Error fetching user info:", userInfoError);
+        continue; // Skip to the next iteration in case of an error
+      }
+
+      console.log("User Info:", userInfo);
+
+      if (!userInfo || userInfo.length === 0) {
+        console.error("User info not found or empty.");
+        continue; // Skip to the next iteration if user info is empty
+      }
+
+      const fullName = `${userInfo[0].firstname} ${userInfo[0].lastname}`;
+
+      // Create HTML structure for comment
+      const commentDiv = document.createElement("div");
+      commentDiv.classList.add("row", "pb-3");
+      const imagePath = rating.image_path
+        ? supabaseStorageURL + rating.image_path
+        : "";
+      // Construct the HTML content for comments using fetched data
+      commentDiv.innerHTML = `
+      <div class="row">
+        <div class="col-2">
+          <img
+            id="profile_image"
+            width="35px"
+            height="35px"
+            class="img-account-profile rounded-circle mb-2"
+            src="${userInfo[0].image_path}"
+            alt="Profile Picture"
+          />
+        </div>
+        <div class="col-10 pt-2">
+          <h6>
+            <b id="fullname">${fullName}</b><br />
+            <span><small id="stars">${generateStars(
+              rating.rating
+            )}</small></span>
+          </h6>
+        </div>
+      </div>
+      <p class="text-dark px-5" id="comment">${rating.comments}</p>
+      <img
+        class="px-5"
+        id="image_path"
+        src="${supabaseStorageURL + rating.image_path}"
+        width="70px"
+        alt=""
+      />
+    `;
+
+      // Append the comment div to the comment section
+      commentSection.appendChild(commentDiv);
+    }
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+}
+
+displayCommentsForRecipe(currentRecipeId);

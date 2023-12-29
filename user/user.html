@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/login/regestration.css" />
+    <link rel="stylesheet" href="/user/user.css" />
+    <script type="module" src="/js/user/user.js"></script>
+
+    <title>Boostrap Login | Ludiflex</title>
+  </head>
+  <body>
+    <!-- navbar -->
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid pt-2">
+        <a href="/user/user.html"
+          ><img
+            id="navuser"
+            src="/assets/images/index/icons8-user-100.png"
+            alt=""
+            width="50px"
+        /></a>
+        <div class="inputBox_container">
+          <svg
+            class="search_icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 48 48"
+            alt="search icon"
+          >
+            <path
+              d="M46.599 46.599a4.498 4.498 0 0 1-6.363 0l-7.941-7.941C29.028 40.749 25.167 42 21 42 9.402 42 0 32.598 0 21S9.402 0 21 0s21 9.402 21 21c0 4.167-1.251 8.028-3.342 11.295l7.941 7.941a4.498 4.498 0 0 1 0 6.363zM21 6C12.717 6 6 12.714 6 21s6.717 15 15 15c8.286 0 15-6.714 15-15S29.286 6 21 6z"
+            ></path>
+          </svg>
+          <input
+            class="inputBox"
+            id="inputBox"
+            type="text"
+            placeholder="Search For Recipe"
+          />
+        </div>
+
+        <!-- 
+        <div class="dropdown" id="search-dropdown"></div> -->
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Your navigation links here -->
+            <li class="nav-item">
+              <a class="nav-link scrollto active" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="btn_logout">
+                <button class="btn btn-primary w-100">Logout</button>
+              </a>
+            </li>
+            <li>
+              <!-- Search Bar -->
+            </li>
+            <!-- ... other navigation links ... -->
+          </ul>
+        </div>
+      </div>
+      <div class="row px-5 mx-5">
+        <div id="search-dropdown" class="text-white"></div>
+      </div>
+    </nav>
+    <!-- End NavbaR -->
+    <!----------------------- Main Container -------------------------->
+    <!--Go back button -->
+    <div class="container-fluid text-white">
+      <div class="container">
+        <br />
+
+        <!-- Add this button wherever you want in your HTML, such as near the recipe title -->
+        <!-- <button class="text-white text-bg-success"id="favoriteButton" onclick="addToFavorites() ">Add to Favorites</button> -->
+      </div>
+    </div>
+    <!--END button -->
+
+    <!-- Navlink -->
+    <div class="container">
+      <div class="row">
+        <ul class="nav px-5">
+          <!-- Link to Account section -->
+          <li class="nav-item col-4">
+            <a class="nav-link" href="user.html">Account</a>
+          </li>
+
+          <!-- Link to Favorites section -->
+          <li class="nav-item col-4">
+            <a class="nav-link" style="color: #df9006" href="favorites.html"
+              >Favorites</a
+            >
+          </li>
+
+          <!-- Link to Ratings section -->
+          <li class="nav-item col-4">
+            <a
+              class="nav-link"
+              style="color: #df9006"
+              href="#"
+              onclick="showSection('ratings-section')"
+              >Ratings</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Navlink End -->
+
+    <div class="container-xl px-4 mt-3">
+      <!-- Alert Notification -->
+      <div class="alert alert-success d-none" role="alert"></div>
+      <div class="alert alert-danger d-none" role="alert"></div>
+      <!-- Account page navigation-->
+      <section id="account-section" class="content-section">
+        <div class="row">
+          <div class="col-xl-4">
+            <!-- Profile picture card-->
+            <!-- Display the user image -->
+            <div class="card mb-4 mb-xl-0" style="border-radius: 10px">
+              <div class="card-header">Account Details</div>
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col"></div>
+                  <div class="col">
+                    <div class="">
+                      <!-- User profile picture -->
+                      <img
+                        id="profile_image"
+                        class="img-account-profile rounded-circle mb-2"
+                        src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                        alt="Profile Picture"
+                      />
+                    </div>
+                  </div>
+                  <div class="col"></div>
+                </div>
+
+                <!-- Profile picture help block -->
+                <div class="small font-italic text-muted mb-4 text-center">
+                  JPG or PNG no larger than 5 MB
+                </div>
+                <div class="row">
+                  <div class="col px-5">
+                    <!-- Profile picture upload button -->
+                    <input
+                      type="file"
+                      id="fileInput"
+                      class="butn text-dark"
+                      accept="image/*"
+                    />
+                    <div class="px-5 py-3 text-center">
+                      <button
+                        type="submit"
+                        class="btn"
+                        id="uploadButton"
+                        minlength="8"
+                      >
+                        Upload Image
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <!-- Form Row-->
+
+                  <!-- Form Group (first name) -->
+                  <div class="row gx-3 py-5">
+                    <div class="row text-center">
+                      <div class="col-6">
+                        <label class="small mb-1" style="font-style: italic"
+                          >First name</label
+                        >
+                        <h6 id="firstname"></h6>
+                      </div>
+                      <div class="col-6">
+                        <label class="small mb-1" style="font-style: italic"
+                          >Last name</label
+                        >
+                        <h6 id="lastname"></h6>
+                      </div>
+                    </div>
+                    <div class="col px-5">
+                      <label class="small mb-1" style="font-style: italic"
+                        >Email</label
+                      >
+                      <h6 id="email"></h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="/index.html" class="floating-button">
+          <button class="button">
+            <div class="button-box pt-1">
+              <span class="button-elem text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="27"
+                  height="27"
+                  fill="currentColor"
+                  class="bi bi-house-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"
+                  />
+                  <path
+                    d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"
+                  />
+                </svg>
+              </span>
+            </div>
+          </button>
+        </a>
+      </section>
+
+      <!-- END OF PROFILE SECTION -->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+
+  <link rel="stylesheet" href="/assets/custom/style.css" />
+  <script type="module" src="./js/main.js"></script>
+  <script src="./js/system/index.js" type="module"></script>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid pt-2">
+        <a href="./user/user.html"
+          ><img
+            id="navuser"
+            src="assets/images/index/icons8-user-100.png"
+            alt=""
+            width="50px"
+        /></a>
+        <div class="inputBox_container">
+          <svg
+            class="search_icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 48 48"
+            alt="search icon"
+          >
+            <path
+              d="M46.599 46.599a4.498 4.498 0 0 1-6.363 0l-7.941-7.941C29.028 40.749 25.167 42 21 42 9.402 42 0 32.598 0 21S9.402 0 21 0s21 9.402 21 21c0 4.167-1.251 8.028-3.342 11.295l7.941 7.941a4.498 4.498 0 0 1 0 6.363zM21 6C12.717 6 6 12.714 6 21s6.717 15 15 15c8.286 0 15-6.714 15-15S29.286 6 21 6z"
+            ></path>
+          </svg>
+          <input
+            class="inputBox"
+            id="inputBox"
+            type="text"
+            placeholder="Search For Recipe"
+          />
+        </div>
+
+        <!-- 
+        <div class="dropdown" id="search-dropdown"></div> -->
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Your navigation links here -->
+            <li class="nav-item">
+              <a class="nav-link scrollto active" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="btn_logout">
+                <button class="btn btn-primary w-100">Logout</button>
+              </a>
+            </li>
+            <li>
+              <!-- Search Bar -->
+            </li>
+            <!-- ... other navigation links ... -->
+          </ul>
+        </div>
+      </div>
+      <div class="row px-5 mx-5">
+        <div id="search-dropdown" class="text-white"></div>
+      </div>
+    </nav>
+    <!-- Alert Notification -->
+    <div class="alert alert-success d-none" role="alert"></div>
+    <div class="alert alert-danger d-none" role="alert"></div>
+
+    <!-- marquee -->
+    <div class="marquee">
+      <hr />
+      <h2 id="maintitle" class="text-center">★FILIPINO FOOD RECIPE★</h2>
+      <hr />
+    </div>
+    <!-- end marquee -->
+    <div class="container-fluid">
+      <div class="container text-center">
+        <br />
+        <br />
+
+        <!-- Main dishes -->
+        <div class="mainDishes">
+          <div class="col-12">
+            <p
+              class="category-text"
+              id="collapseButton"
+              role="button"
+              aria-expanded="false"
+              aria-controls="mainDishes"
+            >
+              Main Dishes
+            </p>
+          </div>
+
+          <div
+            class="row collapse text-center dishesCollapse"
+            id="mainDishes"
+          ></div>
+        </div>
+        <!--  End Main Dish-->
+
+        <!-- Noodle Dishes -->
+        <div class="noodleDishes">
+          <div class="col-12">
+            <p
+              class="category-text"
+              id="collapseButton"
+              role="button"
+              aria-expanded="false"
+              aria-controls="noodleDishes"
+            >
+              Noodle Dishes
+            </p>
+          </div>
+
+          <div
+            class="row collapse text-center dishesCollapse"
+            id="noodleDishes"
+          ></div>
+        </div>
+        <!-- End Noodle Dishes -->
+        <!-- Appetizers and Snacks -->
+        <div class="snacksDishes">
+          <div class="col-12">
+            <p
+              class="category-text"
+              id="collapseButton"
+              role="button"
+              aria-expanded="false"
+              aria-controls="snacksDishes"
+            >
+              Appetizers and Snacks
+            </p>
+          </div>
+
+          <div
+            class="row collapse text-center dishesCollapse"
+            id="snacksDishes"
+          ></div>
+        </div>
+        <!-- End of Appetizers and Snacks -->
+
+        <!-- Rise Dishes -->
+        <div class="riceDishes">
+          <div class="col-12">
+            <p
+              class="category-text"
+              id="collapseButton"
+              role="button"
+              aria-expanded="false"
+              aria-controls="riceDishes"
+            >
+              Rice Dishes
+            </p>
+          </div>
+
+          <div
+            class="row collapse text-center dishesCollapse"
+            id="riceDishes"
+          ></div>
+        </div>
+        <!-- End Rise Dishes -->
+
+        <!-- Soup Dishes -->
+        <div class="soupDishes">
+          <div class="col-12">
+            <p
+              class="category-text"
+              id="collapseButton"
+              role="button"
+              aria-expanded="false"
+              aria-controls="soupDishes"
+            >
+              Soup Dishes
+            </p>
+          </div>
+
+          <div
+            class="row collapse text-center dishesCollapse"
+            id="soupDishes"
+          ></div>
+        </div>
+        <!-- End of Soup Dishes -->
+
+        <!-- Dessert and Sweets -->
+        <div class="dissertSweet">
+          <div class="col-12">
+            <p
+              class="category-text"
+              id="collapseButton"
+              role="button"
+              aria-expanded="false"
+              aria-controls="dissertSweet"
+            >
+              Disserts and Sweets
+            </p>
+          </div>
+
+          <div
+            class="row collapse text-center dishesCollapse"
+            id="dissertSweet"
+          ></div>
+        </div>
+        <!-- End of Desert and Sweets -->
+
+        <!-- Beverages -->
+        <div class="beverages">
+          <div class="col-12">
+            <p
+              class="category-text"
+              id="collapseButton"
+              role="button"
+              aria-expanded="false"
+              aria-controls="beverages"
+            >
+              Beverages
+            </p>
+          </div>
+
+          <div
+            class="row collapse text-center dishesCollapse"
+            id="beverages"
+          ></div>
+        </div>
+        <br />
+        <br />
+
+        <!-- End Beverages -->
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script type="module" src="./assets/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

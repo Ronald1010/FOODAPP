@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+    <!--custom css-->
+    <link rel="stylesheet" href="/assets/custom/style.css" />
+    <script type="module" src="/js/system/recipe.js"></script>
+    <script type="module" src="/js/system/comments.js"></script>
+
+    <!-- <script src="/js/system/index.js" type="module"></script> -->
+  </head>
+
+  <body>
+    <!-- Alert Notification -->
+    <div class="alert alert-success d-none" role="alert"></div>
+    <div class="alert alert-danger d-none" role="alert"></div>
+    <!-- Navbar -->
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid pt-2">
+        <a href="/user/user.html"
+          ><img
+            id="navuser"
+            src="/assets/images/index/icons8-user-100.png"
+            alt=""
+            width="50px"
+        /></a>
+        <div class="inputBox_container">
+          <svg
+            class="search_icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 48 48"
+            alt="search icon"
+          >
+            <path
+              d="M46.599 46.599a4.498 4.498 0 0 1-6.363 0l-7.941-7.941C29.028 40.749 25.167 42 21 42 9.402 42 0 32.598 0 21S9.402 0 21 0s21 9.402 21 21c0 4.167-1.251 8.028-3.342 11.295l7.941 7.941a4.498 4.498 0 0 1 0 6.363zM21 6C12.717 6 6 12.714 6 21s6.717 15 15 15c8.286 0 15-6.714 15-15S29.286 6 21 6z"
+            ></path>
+          </svg>
+          <input
+            class="inputBox"
+            id="inputBox"
+            type="text"
+            placeholder="Search For Recipe"
+          />
+        </div>
+
+        <!-- 
+        <div class="dropdown" id="search-dropdown"></div> -->
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Your navigation links here -->
+            <li class="nav-item">
+              <a class="nav-link scrollto active" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="btn_logout">
+                <button class="btn btn-primary w-100">Logout</button>
+              </a>
+            </li>
+            <li>
+              <!-- Search Bar -->
+            </li>
+            <!-- ... other navigation links ... -->
+          </ul>
+        </div>
+      </div>
+      <div class="row px-5 mx-5">
+        <div id="search-dropdown" class="text-white"></div>
+      </div>
+    </nav>
+    <!-- button -->
+
+    <!-- Add this button wherever you want in your HTML, such as near the recipe title -->
+    <!-- <button class="text-white text-bg-success"id="favoriteButton" onclick="addToFavorites() ">Add to Favorites</button> -->
+
+    <!-- buttons end -->
+    <div id="recipeinfo">
+      <div class="col-sm" id="recipe">
+        <div id="DishName">
+          <br />
+          <h1 class="ebs text-center">
+            <b id="dishNameElement"></b>
+
+            <label class="ui-like">
+              <input type="checkbox" />
+              <div class="like" id="favoriteButton">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill=""
+                >
+                  <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                  <g
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    id="SVGRepo_tracerCarrier"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M20.808,11.079C19.829,16.132,12,20.5,12,20.5s-7.829-4.368-8.808-9.421C2.227,6.1,5.066,3.5,8,3.5a4.444,4.444,0,0,1,4,2,4.444,4.444,0,0,1,4-2C18.934,3.5,21.773,6.1,20.808,11.079Z"
+                    ></path>
+                  </g>
+                </svg>
+              </div>
+            </label>
+          </h1>
+        </div>
+
+        <!-- THIS IS THE SECTION FOR INGREDIENTS AND PROCEDURES -->
+
+        <main id="main">
+          <section id="about" class="about">
+            <div class="container" data-aos="fade-up">
+              <div class="row">
+                <div
+                  class="col-lg-6 order-1 order-lg-2"
+                  data-aos="zoom-in"
+                  data-aos-delay="100"
+                >
+                  <div class="about-img">
+                    <img src="{$image_path}" alt="" />
+                  </div>
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+                  <p class="fst-italic px-3"></p>
+                  <div id="ingredients">
+                    <h3><b>Ingredients:</b></h3>
+                    <ul class="px-4"></ul>
+                  </div>
+                  <h2><b>Procedures:</b></h2>
+                  <ol></ol>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+      <!-- END OF THE RECIPE INFO -->
+
+      <br />
+
+      <div class="container1">
+        <div class="container-fluid pl-5">
+          <div id="comments-container" class="col-12 text-center">
+            <h2><b>Comments and Ratings</b></h2>
+            <div id="comments-list"></div>
+            <div class="row">
+              <form id="comments-form">
+                <label for="comment"></label>
+                <textarea
+                  id="comment"
+                  name="comment"
+                  placeholder="Type comment"
+                  rows="2"
+                  cols="36"
+                  required
+                ></textarea>
+                <label for="file" class="file-upload-label">
+                  <div class="icon">
+                    <!-- You can add an icon or text here if needed -->
+                  </div>
+                  <input type="file" id="file" class="file-upload-input mx-5" />
+                </label>
+
+                <label for="rating"></label>
+                <select id="rating" name="rating" required>
+                  <option value="1">⭐</option>
+                  <option value="2">⭐⭐</option>
+                  <option value="3">⭐⭐⭐</option>
+                  <option value="4">⭐⭐⭐⭐</option>
+                  <option value="5">⭐⭐⭐⭐⭐</option>
+                </select>
+
+                <button
+                  id="commentButton"
+                  type="submit"
+                  class="btn btn-primary text-white"
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+          <br />
+          <br />
+
+          <!-- Comments  -->
+          <div class="row mb-5 pb-5">
+            <div class="col">
+              <div
+                class="mb-4 mt-2 mb-xl-0 bg-white text-dark"
+                style="border-radius: 10px"
+              >
+                <div class="card-header text-dark text-center">Comments</div>
+
+                <br />
+                <!-- CARDS ROW -->
+                <div class="row" id="comment_section">
+                  <div class="col text-center" style="font-style: italic">
+                    <h4>Empty</h4>
+                  </div>
+                  <p class="text-dark px-5" id="comment">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Sapiente, voluptatum.
+                  </p>
+                  <img
+                    class="px-5"
+                    id="image_path"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/800px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
+                    width="70px"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FLOATING BUTTON -->
+          <a href="/index.html" class="floating-button">
+            <button class="button">
+              <div class="button-box pt-1">
+                <span class="button-elem text-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="27"
+                    height="27"
+                    fill="currentColor"
+                    class="bi bi-house-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"
+                    />
+                    <path
+                      d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+          </a>
+          <!-- END FLOATING BUTTOn -->
+        </div>
+        <!-- End Comments Section -->
+
+        <br />
+        <br />
+      </div>
+    </div>
+
+    <script type="module" src="/js/system/favorites.js"></script>
+    <!-- <script type="module" src="/assets/js/bootstrap.bundle.min.js"></script> -->
+  </body>
+</html>

@@ -1,0 +1,184 @@
+/* Float Div */
+#floatdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+/* user page */
+body h6 {
+  color: #cda45e;
+}
+h5 {
+  color: black;
+}
+
+/* Login-SignIn */
+h2 {
+  color: #cda45e;
+  font-weight: bold;
+}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-image: url(/assets/imgs/backg2.jpeg);
+}
+
+/*------------ Login container ------------*/
+
+.box-area {
+  width: 930px;
+}
+
+/* -----------Left Box------------ */
+.left-box {
+  background: linear-gradient(to Right, blue, rgb(28, 194, 255));
+}
+/*------------ Right box ------------*/
+
+.right-box {
+  padding: 40px 30px 40px 40px;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*------------ Custom Placeholder ------------*/
+
+::placeholder {
+  font-size: 16px;
+}
+
+.rounded-4 {
+  border-radius: 20px;
+}
+.rounded-5 {
+  border-radius: 30px;
+}
+
+/*------------ For small screens------------*/
+@media only screen and (max-width: 667px) {
+  .box-area {
+    margin: 0 10px;
+  }
+  .left-box {
+    height: 0;
+    overflow: hidden;
+  }
+  .right-box {
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .box-area {
+    margin: 0 10px;
+  }
+  .left-box {
+    height: 400px;
+    overflow: hidden;
+  }
+  .right-box {
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .box-area {
+    margin: 0 10px;
+  }
+  .left-box {
+    height: 620px;
+    overflow: hidden;
+  }
+  .right-box {
+    padding: 20px;
+  }
+}
+
+/* button */
+
+.floating-button {
+  position: fixed;
+  bottom: 20px; /* Adjust this value to change the vertical position */
+  right: 20px; /* Adjust this value to change the horizontal position */
+  z-index: 999; /* Set the z-index to ensure it appears on top of other elements */
+}
+
+.button {
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  overflow: hidden;
+  outline: none;
+  background-color: #090a0ac0;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.button:before,
+.button:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  inset: 7px;
+}
+
+.button:before {
+  border: 4px solid #e19208;
+  transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+    transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+}
+
+.button:after {
+  border: 4px solid #df9006;
+  transform: scale(1.3);
+  transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0;
+}
+
+.button:hover:before,
+.button:focus:before {
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.button:hover:after,
+.button:focus:after {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+    transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+}
+
+.button-box {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.button-elem {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 9px 18px 0 14px;
+
+  fill: #f0eeef;
+}
+
+.button:hover .button-box,
+.button:focus .button-box {
+  transition: 0.4s;
+  transform: translateX(-56px);
+}
