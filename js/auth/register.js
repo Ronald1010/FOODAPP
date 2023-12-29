@@ -1,4 +1,4 @@
-import { supabase, successNotification, errorNotification } from "../main";
+import { supabase, successNotification, errorNotification } from "../main.js";
 
 const form_register = document.getElementById("signupForm");
 
